@@ -6,7 +6,7 @@ resources:
     source: 'demo-file-upload-web-app - Build'
   
 variables:
-  azureSubscription: 'Internal Demo Account (164a84cf-b099-4567-a527-c2a8143a32c7)'
+  azureSubscription: 'Demo Account'
 
 stages:
 - template: azure-release-pipelines-stage-template.yml
@@ -18,4 +18,4 @@ stages:
     resourceGroupName: 'demo-file-upload-web-app'
     region: 'East US'
     storageAccountConnectionString: ${{ variables.StorageAccountConnectionString }}
-    packageName: 'Demo.FileUploadWebApp'
+    packageName: 'Demo.FileUploadWebApp.Server'
