@@ -23,14 +23,13 @@
         File: <InputFile OnChange="OnChange" class="form-control" />
         <ValidationMessage For="() => fileUploadSummary.File" />
 
-        @{
-            var progressCss = "progress " + (displayProgress ? "" : "d-none");
-            var progressWidthStyle = progressPercent + "%";
+
+        @if (displayProgress)
+        {
+            <br />
+            <div class="spinner-grow" role="status"><span class="sr-only">Uploading...</span></div>
         }
 
-        <div class="@progressCss">
-            <div class="progress-bar" role="progressbar" style="width:@progressWidthStyle" area-valuenow="@progressPercent" aria-minvalue="0" aria-maxvalue="100"></div>
-        </div>
     </div>
 
     <button>Submit</button>
@@ -42,7 +41,6 @@
     private bool displayProgress;
     private EditContext editContext;
     private FileUploadSummary fileUploadSummary;
-    private int progressPercent;
     private BlobConnectionInfo blobConnectionInfo;
 
     protected override async Task OnInitializedAsync()
@@ -65,18 +63,15 @@
         using var file = File.OpenWrite(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
         using var stream = fileUploadSummary.File.OpenReadStream(2000000000);
 
-        progressPercent = 50;
         displayProgress = true;
 
         var sas = new AzureSasCredential(blobConnectionInfo.SaS);
         BlobServiceClient blobServiceClient = new BlobServiceClient(new Uri(blobConnectionInfo.Url), sas);
 
-
         // Create the container and return a container client object
         BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("upload");
         await containerClient.UploadBlobAsync(fileUploadSummary.Description, stream);
 
-        progressPercent = 100;
         displayProgress = false;
     }
 
@@ -92,7 +87,7 @@
         public string Description { get; set; } = "FileName";
 
         [Required]
-        [FileValidation(new[] { ".zip", ".jpg", ".exe" })]
+        [FileValidation(new[] { ".zip", ".jpg", ".exe", ".iso" })]
         public IBrowserFile File { get; set; }
     }
 
