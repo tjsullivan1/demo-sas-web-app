@@ -353,3 +353,7 @@ MigrationBackup/
 .ionide/
 Demo.FileUploadWebApp/Server/appsettings.Development.json
 Demo.FileUploadWebApp/Server/Properties/launchSettings.json
+
+# Exclude Terraform files
+**/.terraform/*
+.terraform.lock.hcl
