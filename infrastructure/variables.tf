@@ -11,10 +11,10 @@ variable "resource_group_name_prefix" {
   description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
 }
 
-variable "app_service_plan_name" {
+variable "app_service_name_specifier" {
   type        = string
   default     = "asp"
-  description = "Prefix of the app service plan name that's combined with a random ID so name is unique in your Azure subscription."
+  description = "Specifies the app service name's specifications."
 }
 
 variable "app_service_sku_tier" {
@@ -46,4 +46,9 @@ variable "app_service_stack" {
   default     = "dotnetcore"
   description = "Stack of the app service plan."
 }
-  
+
+variable "app_service_kind" {
+  type        = string
+  default     = "Windows"
+  description = "Kind of the app service plan."
+}
