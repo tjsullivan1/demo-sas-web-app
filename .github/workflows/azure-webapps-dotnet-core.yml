@@ -80,7 +80,7 @@ jobs:
           name: .net-app
         
       - name: List files
-        run: ls ${{env.DOTNET_ROOT}}/myapp
+        run: ls /home/runner/work/demo-sas-web-app/demo-sas-web-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
