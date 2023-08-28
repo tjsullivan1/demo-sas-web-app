@@ -34,10 +34,10 @@ resource "azurerm_windows_web_app" "app" {
   name                = local.app_name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id = azurerm_service_plan.asp.id
+  service_plan_id     = azurerm_service_plan.asp.id
 
   site_config {
-    
+
   }
 
 
@@ -50,6 +50,7 @@ resource "azurerm_windows_web_app" "app" {
     "InstrumentationEngine_EXTENSION_VERSION"         = "disabled"
     "SnapshotDebugger_EXTENSION_VERSION"              = "disabled"
     "XDT_MicrosoftApplicationInsights_BaseExtensions" = "disabled"
+    "WEBSITE_WEBDEPLOY_USE_SCM"                       = "true"
   }
 
   identity {
