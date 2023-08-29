@@ -44,6 +44,7 @@ resource "azurerm_storage_account" "sa" {
 }
 
 # This is currently hard coded as upload in the code
+# TODO: This should be a variable 
 resource "azurerm_storage_container" "sac" {
   name                  = "upload"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -62,6 +63,8 @@ resource "azurerm_service_plan" "asp" {
   }
 }
 
+# TODO: When terraform changes this, it seems to remove basic auth for the ability to upload to SCM
+# I need to determine what needs to be done to remedy that.
 resource "azurerm_windows_web_app" "app" {
   name                = local.app_name
   location            = azurerm_resource_group.rg.location
