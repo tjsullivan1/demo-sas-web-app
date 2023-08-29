@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+using Demo.FileUploadWebApp.Client;
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
