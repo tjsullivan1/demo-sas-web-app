@@ -2,6 +2,7 @@
 locals {
   asp_name = "asp-${var.app_service_name_specifier}-${random_pet.rg_name.id}"
   app_name = "app-${var.app_service_name_specifier}-${random_pet.rg_name.id}"
+  sa_name  = "sa${var.app_service_name_specifier}"
 }
 
 resource "random_pet" "rg_name" {
@@ -16,6 +17,24 @@ resource "azurerm_resource_group" "rg" {
   lifecycle {
     ignore_changes = [tags]
   }
+}
+
+resource "azurerm_storage_account" "sa" {
+  name                     = local.sa_name
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  tags = {
+    environment = "dev"
+  }
+}
+
+resource "azurerm_storage_container" "sac" {
+  name                  = "user-files"
+  storage_account_name  = azurerm_storage_account.sa.name
+  container_access_type = "private"
 }
 
 resource "azurerm_service_plan" "asp" {
@@ -50,6 +69,7 @@ resource "azurerm_windows_web_app" "app" {
     "InstrumentationEngine_EXTENSION_VERSION"         = "disabled"
     "SnapshotDebugger_EXTENSION_VERSION"              = "disabled"
     "XDT_MicrosoftApplicationInsights_BaseExtensions" = "disabled"
+    "StorageAccountConnectionString"                  = azurerm_storage_account.sa.primary_connection_string
     "WEBSITE_WEBDEPLOY_USE_SCM"                       = "true"
   }
 
@@ -64,3 +84,4 @@ resource "azurerm_windows_web_app" "app" {
     environment = "dev"
   }
 }
+
