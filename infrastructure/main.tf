@@ -26,6 +26,17 @@ resource "azurerm_storage_account" "sa" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  blob_properties {
+    access_tier = "Hot"
+    cors_rule {
+      allowed_headers = ["*"]
+      allowed_methods = ["GET"]
+      allowed_origins = ["${azurerm_windows_web_app.app.default_site_hostname}"]
+      max_age_in_seconds = 3600
+    }
+  }
+  
+
   tags = {
     environment = "dev"
   }
