@@ -23,4 +23,5 @@ namespace Demo.FileUploadWebApp.Client
             await builder.Build().RunAsync();
         }
     }
+
 }
