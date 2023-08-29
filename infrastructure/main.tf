@@ -2,6 +2,7 @@
 locals {
   asp_name = "asp-${var.app_service_name_specifier}-${random_pet.rg_name.id}"
   app_name = "app-${var.app_service_name_specifier}-${random_pet.rg_name.id}"
+  cors_name = "https://${local.app_name}.azurewebsites.net"
   sa_name  = "sa${var.app_service_name_specifier}"
 }
 
@@ -27,11 +28,11 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "LRS"
 
   blob_properties {
-    access_tier = "Hot"
     cors_rule {
       allowed_headers = ["*"]
-      allowed_methods = ["GET"]
-      allowed_origins = ["${azurerm_windows_web_app.app.default_site_hostname}"]
+      allowed_methods = ["GET", "HEAD", "POST", "OPTIONS", "MERGE", "PUT"]
+      allowed_origins = ["${local.cors_name}"]
+      exposed_headers = ["*"]
       max_age_in_seconds = 3600
     }
   }
@@ -42,8 +43,9 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
+# This is currently hard coded as upload in the code
 resource "azurerm_storage_container" "sac" {
-  name                  = "user-files"
+  name                  = "upload"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
