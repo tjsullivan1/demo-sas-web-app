@@ -36,6 +36,7 @@
         // Construct the blob endpoint from the account name.
         string endpoint = $"https://{storageAccountName}.blob.core.windows.net";
 
+        /*
         // Create a blob service client object using DefaultAzureCredential
         BlobServiceClient blobServiceClient = new BlobServiceClient(
             new Uri(endpoint),
@@ -47,9 +48,11 @@
             blobServiceClient.GetUserDelegationKey(
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow.AddDays(1));
+        */
 
         // Generate the value here
-        generatedValue = "example value based on input: " + storageAccountName + " " + container + " " + userDelegationKey.SignedObjectId + " " + userDelegationKey.SignedTenantId + " " + userDelegationKey.SignedStartsOn + " " + userDelegationKey.SignedExpiresOn + " " + userDelegationKey.SignedService + " " + userDelegationKey.SignedVersion;
+        // generatedValue = "example value based on input: " + storageAccountName + " " + container + " " + userDelegationKey.SignedObjectId + " " + userDelegationKey.SignedTenantId + " " + userDelegationKey.SignedStartsOn + " " + userDelegationKey.SignedExpiresOn + " " + userDelegationKey.SignedService + " " + userDelegationKey.SignedVersion;
+        generatedValue = "here is the value: " + endpoint + " " + container;
         
     }
     
