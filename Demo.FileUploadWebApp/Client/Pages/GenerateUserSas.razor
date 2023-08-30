@@ -17,7 +17,9 @@
 
 <h3>SAS Generator Component</h3>
 
+<label for="storageAccountName">Storage Account Name</label>
 <input type="text" @bind-value="storageAccountName" />
+<label for="container">Container</label>
 <input type="text" @bind-value="container" />
 <button @onclick="GenerateValue">Generate Value</button>
 <p>@generatedValue</p>
