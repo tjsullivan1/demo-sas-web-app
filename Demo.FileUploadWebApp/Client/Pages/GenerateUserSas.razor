@@ -18,20 +18,39 @@
 <h3>SAS Generator Component</h3>
 
 <input type="text" @bind-value="storageAccountName" />
+<input type="text" @bind-value="container" />
 <button @onclick="GenerateValue">Generate Value</button>
 <p>@generatedValue</p>
 
 @code {
     private string generatedValue;
     private string storageAccountName;
+    private string container;
 
     private void GenerateValue()
     {
+        // Construct the blob endpoint from the account name.
+        string endpoint = $"https://{storageAccountName}.blob.core.windows.net";
+
+        // Create a blob service client object using DefaultAzureCredential
+        BlobServiceClient blobServiceClient = new BlobServiceClient(
+            new Uri(endpoint),
+            new DefaultAzureCredential());
+        BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(container);
+
+        // Get the user delegation key for the Blob service that's valid for 1 day
+        UserDelegationKey userDelegationKey =
+            blobServiceClient.GetUserDelegationKey(
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow.AddDays(1));
+
         // Generate the value here
-        generatedValue = "example value based on input: " + storageAccountName;
+        generatedValue = "example value based on input: " + storageAccountName + " " + container + " " + userDelegationKey.SignedObjectId + " " + userDelegationKey.SignedTenantId + " " + userDelegationKey.SignedStartsOn + " " + userDelegationKey.SignedExpiresOn + " " + userDelegationKey.SignedService + " " + userDelegationKey.SignedVersion;
+        
     }
     
-    /*public async Task<string> GetAuthenticatedToeknCredential(string accountname)
+    /*
+    private async Task<string> GetAuthenticatedToeknCredential(string accountname)
     {
         // Construct the blob endpoint from the account name.
         string endpoint = $"https://{accountName}.blob.core.windows.net";
@@ -41,7 +60,7 @@
             new Uri(endpoint),
             new DefaultAzureCredential());
 
-        return blobServiceClient;
+        await blobServiceClient;
     }
 
     public static async Task<UserDelegationKey> RequestUserDelegationKey(
