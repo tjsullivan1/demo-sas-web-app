@@ -35,7 +35,7 @@
         // Create a blob service client object using DefaultAzureCredential
         BlobServiceClient blobServiceClient = new BlobServiceClient(
             new Uri(endpoint),
-            new DefaultAzureCredential());
+             new InteractiveBrowserCredential());
         BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(container);
 
         // Get the user delegation key for the Blob service that's valid for 1 day
