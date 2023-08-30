@@ -1,0 +1,87 @@
+@page "/user-sas"
+@using Azure
+@using Azure.Identity;
+@using System.ComponentModel.DataAnnotations
+@using System.IO
+@using System.Linq
+@using System.Threading
+@using Azure.Storage.Blobs;
+@using Azure.Storage.Blobs.Models;
+@using Azure.Storage.Blobs.Specialized;
+@using Azure.Storage.Sas;
+@using Demo.FileUploadWebApp.Shared;
+@inject HttpClient Http
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<h3>SAS Generator Component</h3>
+
+<button @onclick="GenerateValue">Generate Value</button>
+
+@code {
+    private string generatedValue;
+
+    private void GenerateValue()
+    {
+        // Generate the value here
+        generatedValue = "example value";
+    }
+    
+    /*public async Task<string> GetAuthenticatedToeknCredential(string accountname)
+    {
+        // Construct the blob endpoint from the account name.
+        string endpoint = $"https://{accountName}.blob.core.windows.net";
+
+        // Create a blob service client object using DefaultAzureCredential
+        BlobServiceClient blobServiceClient = new BlobServiceClient(
+            new Uri(endpoint),
+            new DefaultAzureCredential());
+
+        return blobServiceClient;
+    }
+
+    public static async Task<UserDelegationKey> RequestUserDelegationKey(
+        BlobServiceClient blobServiceClient)
+    {
+        // Get a user delegation key for the Blob service that's valid for 1 day
+        UserDelegationKey userDelegationKey =
+            await blobServiceClient.GetUserDelegationKeyAsync(
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow.AddDays(1));
+
+        return userDelegationKey;
+    }
+
+    public static async Task<Uri> CreateUserDelegationSASBlob(
+        BlobClient blobClient,
+        UserDelegationKey userDelegationKey)
+    {
+        // Create a SAS token for the blob resource that's also valid for 1 day
+        BlobSasBuilder sasBuilder = new BlobSasBuilder()
+        {
+            BlobContainerName = blobClient.BlobContainerName,
+            BlobName = blobClient.Name,
+            Resource = "b",
+            StartsOn = DateTimeOffset.UtcNow,
+            ExpiresOn = DateTimeOffset.UtcNow.AddDays(1)
+        };
+
+        // Specify the necessary permissions
+        sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
+
+        // Add the SAS token to the blob URI
+        BlobUriBuilder uriBuilder = new BlobUriBuilder(blobClient.Uri)
+        {
+            // Specify the user delegation key
+            Sas = sasBuilder.ToSasQueryParameters(
+                userDelegationKey,
+                blobClient
+                .GetParentBlobContainerClient()
+                .GetParentBlobServiceClient().AccountName)
+        };
+
+        return uriBuilder.ToUri();
+    }*/
+
+}
