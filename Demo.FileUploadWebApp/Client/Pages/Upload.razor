@@ -87,7 +87,7 @@
         public string Description { get; set; } = "FileName";
 
         [Required]
-        [FileValidation(new[] { ".zip", ".jpg", ".exe", ".iso" })]
+        [FileValidation(new[] { ".zip", ".jpg", ".png", ".exe", ".iso" })]
         public IBrowserFile File { get; set; }
     }
 
