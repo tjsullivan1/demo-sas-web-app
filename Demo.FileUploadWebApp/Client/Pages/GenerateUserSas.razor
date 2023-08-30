@@ -17,16 +17,18 @@
 
 <h3>SAS Generator Component</h3>
 
+<input type="text" @bind-value="storageAccountName" />
 <button @onclick="GenerateValue">Generate Value</button>
 <p>@generatedValue</p>
 
 @code {
     private string generatedValue;
+    private string storageAccountName;
 
     private void GenerateValue()
     {
         // Generate the value here
-        generatedValue = "example value";
+        generatedValue = "example value based on input: " + storageAccountName;
     }
     
     /*public async Task<string> GetAuthenticatedToeknCredential(string accountname)
