@@ -19,8 +19,10 @@
 
 <label for="storageAccountName">Storage Account Name</label>
 <input type="text" @bind-value="storageAccountName" />
+<br />
 <label for="container">Container</label>
 <input type="text" @bind-value="container" />
+<br />
 <button @onclick="GenerateValue">Generate Value</button>
 <p>@generatedValue</p>
 
@@ -37,7 +39,7 @@
         // Create a blob service client object using DefaultAzureCredential
         BlobServiceClient blobServiceClient = new BlobServiceClient(
             new Uri(endpoint),
-             new InteractiveBrowserCredential());
+            new DefaultAzureCredential());
         BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(container);
 
         // Get the user delegation key for the Blob service that's valid for 1 day
