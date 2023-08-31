@@ -9,4 +9,10 @@ namespace Demo.FileUploadWebApp.Shared
         public string Url { get; set; }
         public string SaS { get; set; }
     }
+
+    public class ContainerUserKey
+    {
+        public string Url { get; set; }
+        public string Key { get; set; }
+    }
 }

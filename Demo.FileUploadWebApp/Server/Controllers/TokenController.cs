@@ -1,5 +1,12 @@
 ﻿using Demo.FileUploadWebApp.Shared;
 
+using Azure;
+using Azure.Identity;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs.Specialized;
+using Azure.Storage.Sas;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Storage;
@@ -39,6 +46,36 @@ namespace Demo.FileUploadWebApp.Server.Controllers
             var sas = csa.GetSharedAccessSignature(policy);
 
             return new BlobConnectionInfo() { SaS = sas, Url = csa.BlobEndpoint.AbsoluteUri};
+        }
+
+        [HttpGet]
+        public ContainerUserKey Get2()
+        {
+            // Construct the blob endpoint from the account name.
+            string endpoint = $"https://saasp.blob.core.windows.net";
+
+            // Create a blob service client object using DefaultAzureCredential
+            BlobServiceClient blobServiceClient = new BlobServiceClient(
+                new Uri(endpoint),
+                new DefaultAzureCredential());    
+
+            var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
+
+            var containerClient = blobServiceClient.GetBlobContainerClient("upload");
+
+            var sasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = containerClient.Name,
+                ExpiresOn = DateTimeOffset.UtcNow.AddDays(1),
+                StartsOn = DateTimeOffset.UtcNow
+            };
+
+            // Specify the necessary permissions
+            sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
+
+            var sasToken = sasBuilder.ToSasQueryParameters(userDelegationKey, blobServiceClient.AccountName).ToString();
+
+            return new ContainerUserKey() { Key = sasToken, Url = containerClient.Uri.AbsoluteUri };
         }
     }
 }
