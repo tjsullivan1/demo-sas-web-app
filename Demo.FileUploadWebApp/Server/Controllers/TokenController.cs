@@ -83,7 +83,8 @@ namespace Demo.FileUploadWebApp.Server.Controllers
 
             var sasToken = sasBuilder.ToSasQueryParameters(userDelegationKey, blobServiceClient.AccountName).ToString();
 
-            return new ContainerUserKey() { Key = "test", Url = "test" };
+            return new ContainerUserKey() { Key = sasToken, Url = containerClient.Uri.AbsoluteUri };
+
 /*
             var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
 
