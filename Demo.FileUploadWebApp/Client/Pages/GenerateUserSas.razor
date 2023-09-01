@@ -17,20 +17,26 @@
 
 <h3>SAS Generator Component</h3>
 
+<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
 <label for="storageAccountName">Storage Account Name</label>
 <input type="text" @bind-value="storageAccountName" />
 <br />
 <label for="container">Container</label>
 <input type="text" @bind-value="container" />
 <br />
-<button @onclick="GenerateValue">Generate Value</button>
-<p>@generatedValue</p>
+<button>Generate SAS</button>
+</EditForm>
+
+<p>@mySas</p>
 
 @code {
+    private EditContext editContext;
     private string generatedValue;
+    private string mySas;
     private string storageAccountName;
     private string container;
 
+    private ContainerUserKey containerUserKey;
     private void GenerateValue()
     {
         // Construct the blob endpoint from the account name.
@@ -54,6 +60,12 @@
         // generatedValue = "example value based on input: " + storageAccountName + " " + container + " " + userDelegationKey.SignedObjectId + " " + userDelegationKey.SignedTenantId + " " + userDelegationKey.SignedStartsOn + " " + userDelegationKey.SignedExpiresOn + " " + userDelegationKey.SignedService + " " + userDelegationKey.SignedVersion;
         generatedValue = "here is the value: " + endpoint + " " + container;
         
+    }
+
+    private async Task OnSubmit()
+    {
+        containerUserKey = await Http.GetFromJsonAsync<ContainerUserKey>("Token/UserSas");
+       mySas = containerUserKey.Key; 
     }
     
     /*

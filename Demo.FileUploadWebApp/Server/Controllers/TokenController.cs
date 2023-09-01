@@ -48,8 +48,8 @@ namespace Demo.FileUploadWebApp.Server.Controllers
             return new BlobConnectionInfo() { SaS = sas, Url = csa.BlobEndpoint.AbsoluteUri};
         }
 
-        [HttpGet]
-        public ContainerUserKey Get2()
+        [HttpGet("UserSas")]
+        public ContainerUserKey GetU()
         {
             // Construct the blob endpoint from the account name.
             string endpoint = $"https://saasp.blob.core.windows.net";
