@@ -67,6 +67,16 @@ namespace Demo.FileUploadWebApp.Server.Controllers
                 new DefaultAzureCredential());    
             
             var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
+            var containerClient = blobServiceClient.GetBlobContainerClient("upload");
+
+            var sasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = containerClient.Name,
+                ExpiresOn = DateTimeOffset.UtcNow.AddDays(1),
+                StartsOn = DateTimeOffset.UtcNow
+            };
+
+            var sasToken = sasBuilder.ToSasQueryParameters(userDelegationKey, blobServiceClient.AccountName).ToString();
 
             return new ContainerUserKey() { Key = "test", Url = "test" };
 /*
