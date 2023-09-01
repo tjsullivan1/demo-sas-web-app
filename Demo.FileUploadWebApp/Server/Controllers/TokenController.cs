@@ -66,6 +66,8 @@ namespace Demo.FileUploadWebApp.Server.Controllers
                 new Uri(endpoint),
                 new DefaultAzureCredential());    
             
+            var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
+
             return new ContainerUserKey() { Key = "test", Url = "test" };
 /*
             var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
