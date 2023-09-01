@@ -17,24 +17,17 @@
 
 <h3>SAS Generator Component</h3>
 
-@* <EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
-<label for="storageAccountName">Storage Account Name</label>
-<input type="text" @bind-value="storageAccountName" />
-<br />
-<label for="container">Container</label>
-<input type="text" @bind-value="container" />
-<br />
-<button>Generate SAS</button>
-</EditForm> *@
+<p>SAS: @mySas</p>
 
-<p>@mySas</p>
+<button class="btn btn-primary" @onclick="GenerateSas">Generate SAS</button>
 
 @code {
     private string mySas;
 
     private string container;
     private ContainerUserKey containerUserKey;
-    protected override async void OnInitialized()
+       
+    private async void GenerateSas()
     {
        containerUserKey = await Http.GetFromJsonAsync<ContainerUserKey>("Token/UserSas");
        mySas = containerUserKey.Key; 
