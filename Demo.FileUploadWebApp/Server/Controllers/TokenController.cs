@@ -65,7 +65,9 @@ namespace Demo.FileUploadWebApp.Server.Controllers
             BlobServiceClient blobServiceClient = new BlobServiceClient(
                 new Uri(endpoint),
                 new DefaultAzureCredential());    
-
+            
+            return new ContainerUserKey() { Key = "test", Url = "test" };
+/*
             var userDelegationKey = blobServiceClient.GetUserDelegationKey(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(1));
 
             var containerClient = blobServiceClient.GetBlobContainerClient("upload");
@@ -83,6 +85,7 @@ namespace Demo.FileUploadWebApp.Server.Controllers
             var sasToken = sasBuilder.ToSasQueryParameters(userDelegationKey, blobServiceClient.AccountName).ToString();
 
             return new ContainerUserKey() { Key = sasToken, Url = containerClient.Uri.AbsoluteUri };
+*/
         }
     }
 }
