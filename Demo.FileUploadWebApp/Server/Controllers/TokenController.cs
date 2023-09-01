@@ -59,7 +59,7 @@ namespace Demo.FileUploadWebApp.Server.Controllers
         public ContainerUserKey GetU()
         {
             // Construct the blob endpoint from the account name.
-            string endpoint = $"https://saasp.blob.core.windows.net";
+            string endpoint = "https://saasp.blob.core.windows.net";
 
             // Create a blob service client object using DefaultAzureCredential
             BlobServiceClient blobServiceClient = new BlobServiceClient(
