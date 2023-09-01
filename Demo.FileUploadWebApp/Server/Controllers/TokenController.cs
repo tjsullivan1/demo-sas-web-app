@@ -75,6 +75,11 @@ namespace Demo.FileUploadWebApp.Server.Controllers
                 ExpiresOn = DateTimeOffset.UtcNow.AddDays(1),
                 StartsOn = DateTimeOffset.UtcNow
             };
+            
+            
+            // Specify the necessary permissions
+            sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
+
 
             var sasToken = sasBuilder.ToSasQueryParameters(userDelegationKey, blobServiceClient.AccountName).ToString();
 
