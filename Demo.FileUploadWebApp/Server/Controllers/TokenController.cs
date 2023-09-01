@@ -48,6 +48,13 @@ namespace Demo.FileUploadWebApp.Server.Controllers
             return new BlobConnectionInfo() { SaS = sas, Url = csa.BlobEndpoint.AbsoluteUri};
         }
 
+        [HttpGet("HelloWorld")]
+        public string GetHelloWorld()
+        {
+            return "Hello World";
+        }
+
+
         [HttpGet("UserSas")]
         public ContainerUserKey GetU()
         {

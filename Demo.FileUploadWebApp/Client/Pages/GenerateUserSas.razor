@@ -29,7 +29,8 @@
        
     private async void GenerateSas()
     {
-       containerUserKey = await Http.GetFromJsonAsync<ContainerUserKey>("Token/UserSas");
-       mySas = containerUserKey.Key; 
+       // containerUserKey = await Http.GetFromJsonAsync<ContainerUserKey>("Token/UserSas");
+       // mySas = containerUserKey.Key; 
+       mySas = await Http.GetStringAsync("Token/HelloWorld");
     }
 }
